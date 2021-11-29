@@ -30,20 +30,32 @@ for jj in steps:
     yInd = yn[indTmp]
     zInd = zn[indTmp]
     ptsLen[nn] = len(xInd)
+    
     coordinates = algs.make_vector(xInd, yInd, zInd)
     for ii in range(0,len(xInd)):
         pts.InsertPoint(kk,coordinates[ii,0],coordinates[ii,1],coordinates[ii,2])
         kk = kk+1
     nn = nn +1
-
-print(ptsLen)        
+     
 pdo.SetPoints(pts)
 pdo.Allocate(len(steps),1)
 
-    
 for jj in range(0,len(steps)-1):
     aPolyLine = vtk.vtkPolyLine()
     aPolyLine.GetPointIds().SetNumberOfIds(ptsLen[jj])
+    
+    if jj == 0:
+        ptStart = 0
+        ptsEnd = ptsLen[1]-1
+    else:
+        ptStart = np.sum(ptsLen[0:jj])
+        ptsEnd = ptStart + ptsLen[jj]-1
+          
+    print(ptStart)
+    print(ptsEnd)
+    
     for ii in range(0,ptsLen[jj]):
-        aPolyLine.GetPointIds().SetId(ii, ii)
+        aPolyLine.GetPointIds().SetId(ii, ptStart+ii)
+        
+
     pdo.InsertNextCell(aPolyLine.GetCellType(), aPolyLine.GetPointIds())    
