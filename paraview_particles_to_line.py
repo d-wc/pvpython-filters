@@ -16,48 +16,34 @@ yn = np.array(Y)
 zn = np.array(Z)
 pn = np.array(pAge)
 
+pdo = self.GetPolyDataOutput()
+pts = vtk.vtkPoints()
+
+kk = 0
+nn = 0
+ptsLen = np.array([None for _ in range(len(steps))])
 for jj in steps:
     
     indTmp = pn == jj
-    print(indTmp)
+
     xInd = xn[indTmp]
     yInd = yn[indTmp]
     zInd = zn[indTmp]
-
+    ptsLen[nn] = len(xInd)
     coordinates = algs.make_vector(xInd, yInd, zInd)
-    pts = vtk.vtkPoints()
-    pts.SetData(dsa.numpyTovtkDataArray(coordinates, 'Points'))
-    output.SetPoints(pts)
+    for ii in range(0,len(xInd)):
+        pts.InsertPoint(kk,coordinates[ii,0],coordinates[ii,1],coordinates[ii,2])
+        kk = kk+1
+    nn = nn +1
 
-    ptIds = vtk.vtkIdList()
-    ptIds.SetNumberOfIds(len(xInd))
-      
-    for i in range(len(xInd)):
-       #Add the points to the line. The first value indicates
-       #the order of the point on the line. The second value
-       #is a reference to a point in a vtkPoints object. Depends
-       #on the order that Points were added to vtkPoints object.
-       #Note that this will not be associated with actual points
-       #until it is added to a vtkPolyData object which holds a
-       #vtkPoints object.
-       ptIds.SetId(i, i)
-       
+print(ptsLen)        
+pdo.SetPoints(pts)
+pdo.Allocate(len(steps),1)
+
     
-    print(jj)
-
-    difPt = 0*xInd
-
-    difPt[0] = math.sqrt((xInd[2]-xInd[0])**2 + (yInd[2]-yInd[0])**2 + (zInd[2]-zInd[0])**2)
-    difPt[-1] = math.sqrt((xInd[-1]-xInd[-1-2])**2 + (yInd[-1]-yInd[-1-2])**2 + (zInd[-1]-zInd[-1-2])**2)
-    for i in range(1,len(xInd)-1):
-       difPt[i] = math.sqrt((xInd[i+1]-xInd[i-1])**2 + (yInd[i+1]-yInd[i-1])**2 + (zInd[i+1]-zInd[i-1])**2)
-
-    # Allocate the number of 'cells' that will be added. We are just
-    # adding one vtkPolyLine 'cell' to the vtkPolyData object.
-    output.Allocate(8,8)
-
-    output.PointData.append(difPt, 'pyPts')
-    output.PointData.append(pn[indTmp], 'pypts' + str(jj))
-
-    # Add the poly line 'cell' to the vtkPolyData object.\output.PointData.append(index, 'Index')
-    output.InsertNextCell(vtk.VTK_POLY_LINE, ptIds)
+for jj in range(0,len(steps)-1):
+    aPolyLine = vtk.vtkPolyLine()
+    aPolyLine.GetPointIds().SetNumberOfIds(ptsLen[jj])
+    for ii in range(0,ptsLen[jj]):
+        aPolyLine.GetPointIds().SetId(ii, ii)
+    pdo.InsertNextCell(aPolyLine.GetCellType(), aPolyLine.GetPointIds())    
