@@ -44,12 +44,27 @@ for jj in steps:
     ptsLen[nn] = len(xInd)
     
     difPt = 0*xInd
-
+    thetaPt = 0*xInd
+    
     difPt[0] = math.sqrt((xInd[2]-xInd[0])**2 + (yInd[2]-yInd[0])**2 + (zInd[2]-zInd[0])**2)
     difPt[-1] = math.sqrt((xInd[-1]-xInd[-1-2])**2 + (yInd[-1]-yInd[-1-2])**2 + (zInd[-1]-zInd[-1-2])**2)
     for i in range(1,len(xInd)-1):
        difPt[i] = math.sqrt((xInd[i+1]-xInd[i-1])**2 + (yInd[i+1]-yInd[i-1])**2 + (zInd[i+1]-zInd[i-1])**2)
     
+    for i in range(1,len(xInd)-1):
+        X1 = xInd[i+1]-xInd[i-1] 
+        X0 = xInd[i]-xInd[i-1] 
+        
+        Y1 = yInd[i+1]-yInd[i-1] 
+        Y0 = yInd[i]-yInd[i-1] 
+        
+        Z1 = zInd[i+1]-zInd[i-1] 
+        Z0 = zInd[i]-zInd[i-1] 
+        
+        AA = math.sqrt((X1)**2 + (Y1)**2 + (Z1)**2)
+        BB = math.sqrt((X0)**2 + (Y0)**2 + (Z0)**2)
+        CC = math.sqrt((X1-X0)**2 + (Y1-Y0)**2 + (Z1-Z0)**2)
+        
     difOut[indTmp] = difPt
     coordinates = algs.make_vector(xInd, yInd, zInd)
     for ii in range(0,len(xInd)):
