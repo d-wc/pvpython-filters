@@ -33,7 +33,7 @@ nn = 0
 ptsLen = np.array([None for _ in range(len(steps))])
 
 difOut = 0*xn
-thetaOut = difOut
+thetaOut = np.pi*xn
 
 for jj in steps:
     
@@ -45,7 +45,7 @@ for jj in steps:
     ptsLen[nn] = len(xInd)
     
     difPt = 0*xInd
-    thetaPt = 0*xInd
+    thetaPt = np.pi+0*xInd
     
     difPt[0] = math.sqrt((xInd[2]-xInd[0])**2 + (yInd[2]-yInd[0])**2 + (zInd[2]-zInd[0])**2)
     difPt[-1] = math.sqrt((xInd[-1]-xInd[-1-2])**2 + (yInd[-1]-yInd[-1-2])**2 + (zInd[-1]-zInd[-1-2])**2)
@@ -67,7 +67,7 @@ for jj in steps:
         CC = math.sqrt((X1-X0)**2 + (Y1-Y0)**2 + (Z1-Z0)**2)
         thetaPt[i] = np.arccos((AA**2 - BB**2 - CC**2)/(-2*BB*CC))
         
-    difOut[indTmp] = difPt
+    difOut[indTmp] = 1/difPt
     thetaOut[indTmp] = thetaPt
     
     coordinates = algs.make_vector(xInd, yInd, zInd)
