@@ -33,6 +33,7 @@ nn = 0
 ptsLen = np.array([None for _ in range(len(steps))])
 
 difOut = 0*xn
+thetaOut = difOut
 
 for jj in steps:
     
@@ -64,15 +65,19 @@ for jj in steps:
         AA = math.sqrt((X1)**2 + (Y1)**2 + (Z1)**2)
         BB = math.sqrt((X0)**2 + (Y0)**2 + (Z0)**2)
         CC = math.sqrt((X1-X0)**2 + (Y1-Y0)**2 + (Z1-Z0)**2)
+        thetaPt[i] = np.arccos((AA**2 - BB**2 - CC**2)/(-2*BB*CC))
         
     difOut[indTmp] = difPt
+    thetaOut[indTmp] = thetaPt
+    
     coordinates = algs.make_vector(xInd, yInd, zInd)
     for ii in range(0,len(xInd)):
         pts.InsertPoint(kk,coordinates[ii,0],coordinates[ii,1],coordinates[ii,2])
         kk = kk+1
     nn = nn +1
 
-output.PointData.append(difOut, 'neighborDist')     
+output.PointData.append(difOut, 'neighborDist')
+output.PointData.append(thetaOut, 'neighborTheta')        
 pdo.SetPoints(pts)
 pdo.Allocate(len(steps),1)
 
