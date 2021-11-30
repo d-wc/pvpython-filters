@@ -11,3 +11,5 @@ Meunier, Patrice, and Emmanuel Villermaux. "The diffusive strip method for scala
 
 https://www.irphe.fr/~fragmix/publis/MV2010.pdf
 
+paraview_LavisionTecplot imports a tecplot-formatted volume from a transient Lavision 3D PIV solution with units of mm-m/s and a user-specified DT. 
+
