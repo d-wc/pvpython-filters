@@ -1,7 +1,7 @@
 # pvpython-filters
 Personal python scripts for Paraview 5.10
 
-paraview_particles_to_line is a python filter for paraview of the diffusive strip method to study scalar mixing from particle tracks. 
+paraview_DiffusiveStrip is a python filter for paraview of the diffusive strip method to study scalar mixing from particle tracks. 
 
 Input: particle tracers. Output: lines connecting points with the same age, with inverse neighbor distance and central neighborhood angle. 
 
