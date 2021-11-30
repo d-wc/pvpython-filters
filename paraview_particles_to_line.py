@@ -5,6 +5,7 @@
 ##################################################
 ## Daniel Carlson
 ## 2021 Nov
+## Okinawa Institute of Science and Technology
 ##################################################
 
 import math
