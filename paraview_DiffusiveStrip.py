@@ -13,18 +13,16 @@ import numpy as np
 from vtk.numpy_interface import algorithms as algs
 from vtk.numpy_interface import dataset_adapter as dsa
 
-input0 = inputs[0]
 X = inputs[0].Points[:,0]
 Y = inputs[0].Points[:,1]
 Z = inputs[0].Points[:,2]
-pAge = input0.PointData["InjectionStepId"] #default injection name in time from particleTracer
-print(X)
+pAge = inputs[0].PointData["InjectionStepId"] #default injection name in time from particleTracer
+
 steps=np.unique(pAge)
 
 xn = np.array(X)
 yn = np.array(Y)
 zn = np.array(Z)
-
 
 pn = np.array(pAge)
 
