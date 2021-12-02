@@ -18,7 +18,10 @@ Y = inputs[0].Points[:,1]
 Z = inputs[0].Points[:,2]
 pAge = inputs[0].PointData["InjectionStepId"] #default injection name in time from particleTracer
 
-steps=np.unique(pAge)
+stepsAll, stepCounts =np.unique(pAge, return_counts = True)
+
+indVal = stepCounts > 2
+steps = stepsAll[indVal]
 
 xn = np.array(X)
 yn = np.array(Y)
