@@ -1,7 +1,7 @@
 # pvpython-filters
 Personal python scripts for Paraview 5.10
 
-Diffusive Strip is a python filter for paraview of the diffusive strip method to study scalar mixing from particle tracks. 
+Diffusive Strip/Ring is a python filter for paraview of the diffusive strip method to study scalar mixing from particle tracks. DissusiveRing expects periodic (circular) particle source.
 
 Input: ParticleTracer output. Output: lines connecting points with the same age, with inverse neighbor distance and central neighborhood angle. Make sure space-time scales are consistent during ParticleTracer.
 
