@@ -51,8 +51,40 @@ for jj in steps:
     difPt = 0*xInd
     thetaPt = np.pi+0*xInd
     
+    ##difPt start and end
     difPt[0] = math.sqrt((xInd[1]-xInd[-1])**2 + (yInd[1]-yInd[-1])**2 + (zInd[1]-zInd[-1])**2)
     difPt[-1] = math.sqrt((xInd[0]-xInd[-1-1])**2 + (yInd[0]-yInd[-1-1])**2 + (zInd[0]-zInd[-1-1])**2)
+    
+    ##start theta
+    X1 = xInd[1]-xInd[-1] 
+    X0 = xInd[0]-xInd[-1] 
+        
+    Y1 = yInd[1]-yInd[-1] 
+    Y0 = yInd[0]-yInd[-1] 
+        
+    Z1 = zInd[1]-zInd[-1] 
+    Z0 = zInd[0]-zInd[-1] 
+        
+    AA = math.sqrt((X1)**2 + (Y1)**2 + (Z1)**2)
+    BB = math.sqrt((X0)**2 + (Y0)**2 + (Z0)**2)
+    CC = math.sqrt((X1-X0)**2 + (Y1-Y0)**2 + (Z1-Z0)**2)
+    thetaPt[0] = np.arccos((AA**2 - BB**2 - CC**2)/(-2*BB*CC))
+    
+    ##end theta
+    X1 = xInd[0]-xInd[-1-1] 
+    X0 = xInd[-1]-xInd[-1-1] 
+        
+    Y1 = yInd[0]-yInd[-1-1] 
+    Y0 = yInd[-1]-yInd[-1-1] 
+        
+    Z1 = zInd[0]-zInd[-1-1] 
+    Z0 = zInd[-1]-zInd[-1-1] 
+        
+    AA = math.sqrt((X1)**2 + (Y1)**2 + (Z1)**2)
+    BB = math.sqrt((X0)**2 + (Y0)**2 + (Z0)**2)
+    CC = math.sqrt((X1-X0)**2 + (Y1-Y0)**2 + (Z1-Z0)**2)
+    thetaPt[-1] = np.arccos((AA**2 - BB**2 - CC**2)/(-2*BB*CC))
+        
     
     for i in range(1,len(xInd)-1):
        difPt[i] = math.sqrt((xInd[i+1]-xInd[i-1])**2 + (yInd[i+1]-yInd[i-1])**2 + (zInd[i+1]-zInd[i-1])**2)
@@ -70,6 +102,7 @@ for jj in steps:
         AA = math.sqrt((X1)**2 + (Y1)**2 + (Z1)**2)
         BB = math.sqrt((X0)**2 + (Y0)**2 + (Z0)**2)
         CC = math.sqrt((X1-X0)**2 + (Y1-Y0)**2 + (Z1-Z0)**2)
+        
         thetaPt[i] = np.arccos((AA**2 - BB**2 - CC**2)/(-2*BB*CC))
         
     difOut[indTmp] = 1/difPt
