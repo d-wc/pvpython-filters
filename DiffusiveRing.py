@@ -11,7 +11,7 @@
 import math
 import numpy as np
 from vtk.numpy_interface import algorithms as algs
-from vtk.numpy_interface import dataset_adapter as dsa
+#from vtk.numpy_interface import dataset_adapter as dsa
 
 X = inputs[0].Points[:,0]
 Y = inputs[0].Points[:,1]
@@ -22,7 +22,7 @@ pAge = inputs[0].PointData["InjectionStepId"] #default injection name in time fr
 
 stepsAll, stepCounts =np.unique(pAge, return_counts = True)
 
-indVal = stepCounts > 2
+indVal = stepCounts > 2 #minimum 3 pts per ring
 steps = stepsAll[indVal]
 
 xn = np.array(X)
