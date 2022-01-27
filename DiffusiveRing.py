@@ -17,7 +17,7 @@ X = inputs[0].Points[:,0]
 Y = inputs[0].Points[:,1]
 Z = inputs[0].Points[:,2]
 
-FT = np.array(inputs[0].PointData["FT"])
+FT = np.array(inputs[0].PointData["FT"]) #look for FT variable to pass along pipeline
 pAge = inputs[0].PointData["InjectionStepId"] #default injection name in time from particleTracer
 
 stepsAll, stepCounts =np.unique(pAge, return_counts = True)
