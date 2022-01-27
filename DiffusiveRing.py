@@ -16,6 +16,8 @@ from vtk.numpy_interface import dataset_adapter as dsa
 X = inputs[0].Points[:,0]
 Y = inputs[0].Points[:,1]
 Z = inputs[0].Points[:,2]
+
+FT = np.array(inputs[0].PointData["FT"])
 pAge = inputs[0].PointData["InjectionStepId"] #default injection name in time from particleTracer
 
 stepsAll, stepCounts =np.unique(pAge, return_counts = True)
@@ -38,6 +40,7 @@ ptsLen = np.array([None for _ in range(len(steps))])
 
 difOut = 0*xn
 thetaOut = np.pi*xn
+FTOUT = xn
 
 for jj in steps:
     
@@ -46,10 +49,12 @@ for jj in steps:
     xInd = xn[indTmp]
     yInd = yn[indTmp]
     zInd = zn[indTmp]
+    
+    FTInd = FT[indTmp]
     ptsLen[nn] = len(xInd)
     
     difPt = 0*xInd
-    thetaPt = np.pi+0*xInd
+    thetaPt = 0*xInd
     
     ##difPt start and end
     difPt[0] = math.sqrt((xInd[1]-xInd[-1])**2 + (yInd[1]-yInd[-1])**2 + (zInd[1]-zInd[-1])**2)
@@ -107,6 +112,8 @@ for jj in steps:
         
     difOut[indTmp] = 1/difPt
     thetaOut[indTmp] = thetaPt
+    FTOUT[indTmp]= FTInd
+    
     coordinates = algs.make_vector(xInd, yInd, zInd)
     for ii in range(0,len(xInd)):
         pts.InsertPoint(kk,coordinates[ii,0],coordinates[ii,1],coordinates[ii,2])
@@ -115,6 +122,8 @@ for jj in steps:
 
 output.PointData.append(difOut, 'neighborDist')
 output.PointData.append(thetaOut, 'neighborTheta')        
+output.PointData.append(FTOUT, 'FT')    
+
 pdo.SetPoints(pts)
 pdo.Allocate(len(steps),1)
 
