@@ -39,8 +39,11 @@ nn = 0
 ptsLen = np.array([None for _ in range(len(steps))])
 
 difOut = 0*xn
-thetaOut = np.pi*xn
-FTOUT = xn
+thetaOut = 0*xn
+FTOUT = 0*xn
+
+ptDist = 0*xn
+ptDel = ptDist
 
 for jj in steps:
     
@@ -50,9 +53,15 @@ for jj in steps:
     yInd = yn[indTmp]
     zInd = zn[indTmp]
     
+    xMean = np.mean(xInd)
+    yMean = np.mean(yInd)
+    zMean = np.mean(zInd)
+    
+    ptDist[indTmp] = np.sqrt((xInd-xMean)**2+(yInd-yMean)**2+(zInd-zMean)**2)
+    ptDel[indTmp] = ptDist[indTmp] / np.mean(ptDist[indTmp])
+    #math.sqrt((xInd-xMean)**2+(yInd-yMean)**2+(zInd-zMean)**2)
     FTInd = FT[indTmp]
     ptsLen[nn] = len(xInd)
-    
     difPt = 0*xInd
     thetaPt = 0*xInd
     
@@ -101,8 +110,8 @@ for jj in steps:
         Y1 = yInd[i+1]-yInd[i-1] 
         Y0 = yInd[i]-yInd[i-1] 
         
-        Z1 = zInd[i+1]-zInd[i-1] 
-        Z0 = zInd[i]-zInd[i-1] 
+        Z1 = zInd[i+1]-zInd[i-1]
+        Z0 = zInd[i]-zInd[i-1]
         
         AA = math.sqrt((X1)**2 + (Y1)**2 + (Z1)**2)
         BB = math.sqrt((X0)**2 + (Y0)**2 + (Z0)**2)
@@ -110,7 +119,7 @@ for jj in steps:
         
         thetaPt[i] = np.arccos((AA**2 - BB**2 - CC**2)/(-2*BB*CC))
         
-    difOut[indTmp] = 1/difPt
+    difOut[indTmp] = difPt
     thetaOut[indTmp] = thetaPt
     FTOUT[indTmp]= FTInd
     
@@ -123,6 +132,8 @@ for jj in steps:
 output.PointData.append(difOut, 'neighborDist')
 output.PointData.append(thetaOut, 'neighborTheta')        
 output.PointData.append(FTOUT, 'FT')    
+output.PointData.append(ptDist, 'ptDist')
+output.PointData.append(ptDel, 'ptDel')      
 
 pdo.SetPoints(pts)
 pdo.Allocate(len(steps),1)
