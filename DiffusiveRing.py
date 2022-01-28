@@ -43,7 +43,7 @@ thetaOut = 0*xn
 FTOUT = 0*xn
 
 ptDist = 0*xn
-ptDel = ptDist
+ptDel = 0*xn
 
 for jj in steps:
     
@@ -58,7 +58,7 @@ for jj in steps:
     zMean = np.mean(zInd)
     
     ptDist[indTmp] = np.sqrt((xInd-xMean)**2+(yInd-yMean)**2+(zInd-zMean)**2)
-    ptDel[indTmp] = ptDist[indTmp] / np.mean(ptDist[indTmp])
+    ptDel[indTmp] = (ptDist[indTmp]-np.mean(ptDist[indTmp])) / np.mean(ptDist[indTmp])
     #math.sqrt((xInd-xMean)**2+(yInd-yMean)**2+(zInd-zMean)**2)
     FTInd = FT[indTmp]
     ptsLen[nn] = len(xInd)
