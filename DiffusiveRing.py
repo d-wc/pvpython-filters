@@ -18,6 +18,7 @@ Y = inputs[0].Points[:,1]
 Z = inputs[0].Points[:,2]
 
 FT = np.array(inputs[0].PointData["FT"]) #look for FT variable to pass along pipeline
+defMag = np.array(inputs[0].PointData["defMag"]) #look for FT variable to pass along pipeline
 pAge = inputs[0].PointData["InjectionStepId"] #default injection name in time from particleTracer
 
 stepsAll, stepCounts =np.unique(pAge, return_counts = True)
@@ -41,7 +42,7 @@ ptsLen = np.array([None for _ in range(len(steps))])
 difOut = 0*xn
 thetaOut = 0*xn
 FTOUT = 0*xn
-
+DEFOUT = 0*xn
 ptDist = 0*xn
 ptDel = 0*xn
 
@@ -58,9 +59,11 @@ for jj in steps:
     zMean = np.mean(zInd)
     
     ptDist[indTmp] = np.sqrt((xInd-xMean)**2+(yInd-yMean)**2+(zInd-zMean)**2)
-    ptDel[indTmp] = (ptDist[indTmp]-np.mean(ptDist[indTmp])) / np.mean(ptDist[indTmp])
+    ptDel[indTmp] = 1+(ptDist[indTmp]-np.mean(ptDist[indTmp])) / np.mean(ptDist[indTmp])
     #math.sqrt((xInd-xMean)**2+(yInd-yMean)**2+(zInd-zMean)**2)
     FTInd = FT[indTmp]
+    DefInd = defMag[indTmp]
+    
     ptsLen[nn] = len(xInd)
     difPt = 0*xInd
     thetaPt = 0*xInd
@@ -122,6 +125,7 @@ for jj in steps:
     difOut[indTmp] = difPt
     thetaOut[indTmp] = thetaPt
     FTOUT[indTmp]= FTInd
+    DEFOUT[indTmp]= DefInd
     
     coordinates = algs.make_vector(xInd, yInd, zInd)
     for ii in range(0,len(xInd)):
@@ -131,7 +135,8 @@ for jj in steps:
 
 output.PointData.append(difOut, 'neighborDist')
 output.PointData.append(thetaOut, 'neighborTheta')        
-output.PointData.append(FTOUT, 'FT')    
+output.PointData.append(FTOUT, 'FT')
+output.PointData.append(DEFOUT, 'defMag')    
 output.PointData.append(ptDist, 'ptDist')
 output.PointData.append(ptDel, 'ptDel')      
 
