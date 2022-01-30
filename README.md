@@ -1,8 +1,8 @@
 # pvpython-filters
 Personal python scripts for Paraview 5.10
 
-![](https://user-images.githubusercontent.com/41755304/151687132-faa0a122-8709-4952-97c8-f323cf1da35d.png | width=50)
 
+<img src="https://user-images.githubusercontent.com/41755304/151687179-ac5b0db5-89a9-4604-bc42-145774f5dfa5.png" width="100" height="100">
 
 
 Diffusive Strip/Ring operate in Paraview as python filters of the diffusive strip method to study scalar mixing from particle tracks. DissusiveRing expects a circular particle source.
