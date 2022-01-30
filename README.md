@@ -1,13 +1,16 @@
 # pvpython-filters
 Personal python scripts for Paraview 5.10
 
-Diffusive Strip/Ring is a python filter for paraview of the diffusive strip method to study scalar mixing from particle tracks. DissusiveRing expects periodic (circular) particle source.
+![image](https://user-images.githubusercontent.com/41755304/151687006-87200f32-6b66-4e6a-a3ac-f44c5ffb02ab.png)
 
-Input: ParticleTracer output. Output: lines connecting points with the same age, with inverse neighbor distance and central neighborhood angle. Make sure space-time scales are consistent during ParticleTracer.
+
+
+Diffusive Strip/Ring operate in Paraview as python filters of the diffusive strip method to study scalar mixing from particle tracks. DissusiveRing expects a circular particle source.
+
+Input: ParticleTracer output. Output: lines connecting points with the same age, with inverse neighbor distance, central neighborhood angle, and displacement from the parcel centroid. 
 
 Meunier, Patrice, and Emmanuel Villermaux. "The diffusive strip method for scalar mixing in two dimensions." Journal of fluid mechanics 662 (2010): 134-172.
 
 https://www.irphe.fr/~fragmix/publis/MV2010.pdf
 
-paraview_LavisionTecplot is a plugin for importing a tecplot-formatted volume exported from a transient Lavision 3D PIV solution. Import units mm-m/s and a user-specified DT (time scale).  
 
