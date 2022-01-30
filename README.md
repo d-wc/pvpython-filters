@@ -1,7 +1,7 @@
 # pvpython-filters
 Personal python scripts for Paraview 5.10
 
-![image](https://user-images.githubusercontent.com/41755304/151687132-faa0a122-8709-4952-97c8-f323cf1da35d.png| width=50)
+![image](https://user-images.githubusercontent.com/41755304/151687132-faa0a122-8709-4952-97c8-f323cf1da35d.png | width=50)
 
 
 
