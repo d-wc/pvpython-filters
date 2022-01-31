@@ -23,7 +23,7 @@ pAge = inputs[0].PointData["InjectionStepId"] #default injection name in time fr
 
 stepsAll, stepCounts =np.unique(pAge, return_counts = True)
 
-indVal = stepCounts > 2 #minimum 3 pts per ring
+indVal = stepCounts > 10 #minimum 3 pts per ring
 steps = stepsAll[indVal]
 
 xn = np.array(X)
@@ -45,6 +45,7 @@ FTOUT = 0*xn
 DEFOUT = 0*xn
 ptDist = 0*xn
 ptDel = 0*xn
+nPts = 0*xn
 
 for jj in steps:
     
@@ -59,12 +60,13 @@ for jj in steps:
     zMean = np.mean(zInd)
     
     ptDist[indTmp] = np.sqrt((xInd-xMean)**2+(yInd-yMean)**2+(zInd-zMean)**2)
-    ptDel[indTmp] = 1+(ptDist[indTmp]-np.mean(ptDist[indTmp])) / np.mean(ptDist[indTmp])
+    ptDel[indTmp] = 1+abs(ptDist[indTmp]-np.mean(ptDist[indTmp])) / np.mean(ptDist[indTmp])
     #math.sqrt((xInd-xMean)**2+(yInd-yMean)**2+(zInd-zMean)**2)
     FTInd = FT[indTmp]
     DefInd = defMag[indTmp]
     
     ptsLen[nn] = len(xInd)
+    
     difPt = 0*xInd
     thetaPt = 0*xInd
     
@@ -126,6 +128,7 @@ for jj in steps:
     thetaOut[indTmp] = thetaPt
     FTOUT[indTmp]= FTInd
     DEFOUT[indTmp]= DefInd
+    nPts[indTmp] = ptsLen[nn]
     
     coordinates = algs.make_vector(xInd, yInd, zInd)
     for ii in range(0,len(xInd)):
@@ -139,6 +142,7 @@ output.PointData.append(FTOUT, 'FT')
 output.PointData.append(DEFOUT, 'defMag')    
 output.PointData.append(ptDist, 'ptDist')
 output.PointData.append(ptDel, 'ptDel')      
+output.PointData.append(nPts, 'nPts')      
 
 pdo.SetPoints(pts)
 pdo.Allocate(len(steps),1)
