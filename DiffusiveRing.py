@@ -23,7 +23,7 @@ pAge = inputs[0].PointData["InjectionStepId"] #default injection name in time fr
 
 stepsAll, stepCounts =np.unique(pAge, return_counts = True)
 
-indVal = stepCounts > 10 #minimum 3 pts per ring
+indVal = stepCounts > 2 #minimum 3 pts per ring
 steps = stepsAll[indVal]
 
 xn = np.array(X)
