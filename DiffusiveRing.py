@@ -20,8 +20,9 @@ Z = inputs[0].Points[:,2]
 FT = np.array(inputs[0].PointData["FT"]) #look for FT variable to pass along pipeline
 defMag = np.array(inputs[0].PointData["defMag"]) #look for FT variable to pass along pipeline
 pAge = inputs[0].PointData["InjectionStepId"] #default injection name in time from particleTracer
+pSource = np.array(inputs[0].PointData["InjectedPointId"])
 
-stepsAll, stepCounts =np.unique(pAge, return_counts = True)
+stepsAll, stepCounts = np.unique(pAge, return_counts = True)
 
 indVal = stepCounts > 2 #minimum 3 pts per ring
 steps = stepsAll[indVal]
@@ -46,6 +47,7 @@ DEFOUT = 0*xn
 ptDist = 0*xn
 ptDel = 0*xn
 nPts = 0*xn
+injectPtOut = 0*xn
 
 for jj in steps:
     
@@ -61,9 +63,11 @@ for jj in steps:
     
     ptDist[indTmp] = np.sqrt((xInd-xMean)**2+(yInd-yMean)**2+(zInd-zMean)**2)
     ptDel[indTmp] = 1+abs(ptDist[indTmp]-np.mean(ptDist[indTmp])) / np.mean(ptDist[indTmp])
-    #math.sqrt((xInd-xMean)**2+(yInd-yMean)**2+(zInd-zMean)**2)
+
     FTInd = FT[indTmp]
     DefInd = defMag[indTmp]
+   
+    sourceInd = pSource[indTmp]
     
     ptsLen[nn] = len(xInd)
     
@@ -129,6 +133,7 @@ for jj in steps:
     FTOUT[indTmp]= FTInd
     DEFOUT[indTmp]= DefInd
     nPts[indTmp] = ptsLen[nn]
+    injectPtOut[indTmp] = sourceInd
     
     coordinates = algs.make_vector(xInd, yInd, zInd)
     for ii in range(0,len(xInd)):
@@ -143,6 +148,7 @@ output.PointData.append(DEFOUT, 'defMag')
 output.PointData.append(ptDist, 'ptDist')
 output.PointData.append(ptDel, 'ptDel')      
 output.PointData.append(nPts, 'nPts')      
+output.PointData.append(injectPtOut, 'ptSource')     
 
 pdo.SetPoints(pts)
 pdo.Allocate(len(steps),1)
