@@ -22,6 +22,11 @@ defMag = np.array(inputs[0].PointData["defMag"]) #look for FT variable to pass a
 pAge = inputs[0].PointData["InjectionStepId"] #default injection name in time from particleTracer
 pSource = np.array(inputs[0].PointData["InjectedPointId"])
 
+UPT = np.array(inputs[0].PointData["U"])
+uPt = UPT[:,0]
+vPt = UPT[:,1]
+wPt = UPT[:,2]
+
 stepsAll, stepCounts = np.unique(pAge, return_counts = True)
 
 indVal = stepCounts > 2 #minimum 3 pts per ring
@@ -48,6 +53,9 @@ ptDist = 0*xn
 ptDel = 0*xn
 nPts = 0*xn
 injectPtOut = 0*xn
+UOUT = 0*xn
+VOUT = 0*xn
+WOUT = 0*xn
 
 for jj in steps:
     
@@ -60,6 +68,10 @@ for jj in steps:
     xMean = np.mean(xInd)
     yMean = np.mean(yInd)
     zMean = np.mean(zInd)
+       
+    UOUT[indTmp] = uPt[indTmp]
+    VOUT[indTmp] = vPt[indTmp]
+    WOUT[indTmp] = wPt[indTmp]
     
     ptDist[indTmp] = np.sqrt((xInd-xMean)**2+(yInd-yMean)**2+(zInd-zMean)**2)
     ptDel[indTmp] = 1+abs(ptDist[indTmp]-np.mean(ptDist[indTmp])) / np.mean(ptDist[indTmp])
@@ -148,7 +160,11 @@ output.PointData.append(DEFOUT, 'defMag')
 output.PointData.append(ptDist, 'ptDist')
 output.PointData.append(ptDel, 'ptDel')      
 output.PointData.append(nPts, 'nPts')      
-output.PointData.append(injectPtOut, 'ptSource')     
+output.PointData.append(injectPtOut, 'ptSource')
+
+output.PointData.append(UOUT, 'UOUT') 
+output.PointData.append(VOUT, 'VOUT') 
+output.PointData.append(WOUT, 'WOUT')      
 
 pdo.SetPoints(pts)
 pdo.Allocate(len(steps),1)
