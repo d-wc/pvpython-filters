@@ -14,3 +14,6 @@ Meunier, Patrice, and Emmanuel Villermaux. "The diffusive strip method for scala
 https://www.irphe.fr/~fragmix/publis/MV2010.pdf
 
 
+pvStreamTracerCurvature operates on paraview streamlines, isolates streams by injection point, then calculates the local radius of curvature along each streamline.
+
+
