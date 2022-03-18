@@ -1,3 +1,4 @@
+
 ##################################################
 ## When loaded as a programmable filter in Paraview 5.10, 
 ## this script loads XYZ coordinates of streamline point data to calculate streamline curvature
@@ -44,17 +45,20 @@ kk = 0
 nn = 0
 ptsLen = np.array([None for _ in range(len(stepsAll))])
 
+FTOUT = 0*xn
+DEFOUT = 0*xn
 
 UOUT = 0*xn
 VOUT = 0*xn
 WOUT = 0*xn
 radOut = 0*xn
 kcOut = 0*xn
-curvCoord = kcOut
-rCirc = kcOut
+curvCoord = 0*xn
+rCirc = 0*xn
 
-PMOUT = kcOut
-UROUT = kcOut
+PMOUT = 0*xn
+UROUT = 0*yn
+strainOut = 0*xn
 
 for cohortInd in cohortSteps: 
     
@@ -71,36 +75,39 @@ for cohortInd in cohortSteps:
         vInd = vPt[indTmp]
         wInd = wPt[indTmp]
         
+        defInd = defMag[indTmp]
+        FTOUT[indTmp]=FT[indTmp]
+        
+
         curvTmp = 0*xInd
+        strTmp = 0*xInd
         rTmp = 0*xInd+10000 #infinite radius at streamline endpoints
         windS = 1 #delta point index for finding local curvature
         
         for kk in range(windS,len(xInd)-windS):
             
 
-            A = np.array([xInd[kk-windS], yInd[kk-windS], zInd[kk-windS]])
-            B = np.array([xInd[kk], yInd[kk], zInd[kk]])
-            C = np.array([xInd[kk+windS], yInd[kk+windS], zInd[kk+windS]])
+            XA = np.array([xInd[kk-windS], yInd[kk-windS], zInd[kk-windS]])
+            XB = np.array([xInd[kk], yInd[kk], zInd[kk]])
+            XC = np.array([xInd[kk+windS], yInd[kk+windS], zInd[kk+windS]])
             
-            a = np.linalg.norm(C - B)
-            b = np.linalg.norm(C - A)
-            c = np.linalg.norm(B - A)
+            a = np.linalg.norm(XC - XB)
+            b = np.linalg.norm(XC - XA)
+            c = np.linalg.norm(XB - XA)
             
            
             s = (a + b + c) / 2
             rTmp[kk] = a*b*c / 4 / np.sqrt(s * (s - a) * (s - b) * (s - c))
-      
+
         rCirc[indTmp]=rTmp
         UU = np.sqrt(uPt[indTmp]**2 + vPt[indTmp]**2 + wPt[indTmp]**2)
-
-        UOUT[indTmp]=UU
-        UROUT[indTmp]=np.sqrt(2*UU/rTmp)
-
         
+        UOUT[indTmp]=UU
+        UROUT[indTmp]=UU/rTmp
+
 
 output.PointData.append(rCirc, 'rCirc')
 output.PointData.append(UROUT, 'UROUT')
-
 output.PointData.append(UOUT, 'UOUT')
 
 
