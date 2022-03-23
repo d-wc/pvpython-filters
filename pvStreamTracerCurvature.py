@@ -45,20 +45,14 @@ kk = 0
 nn = 0
 ptsLen = np.array([None for _ in range(len(stepsAll))])
 
-FTOUT = 0*xn
-DEFOUT = 0*xn
-
 UOUT = 0*xn
 VOUT = 0*xn
 WOUT = 0*xn
 radOut = 0*xn
 kcOut = 0*xn
-curvCoord = 0*xn
+UROUT = 0*xn
 rCirc = 0*xn
 
-PMOUT = 0*xn
-UROUT = 0*yn
-strainOut = 0*xn
 
 for cohortInd in cohortSteps: 
     
@@ -74,9 +68,6 @@ for cohortInd in cohortSteps:
         uInd = uPt[indTmp]
         vInd = vPt[indTmp]
         wInd = wPt[indTmp]
-        
-        defInd = defMag[indTmp]
-        FTOUT[indTmp]=FT[indTmp]
         
 
         curvTmp = 0*xInd
