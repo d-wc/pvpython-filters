@@ -16,5 +16,5 @@ https://www.irphe.fr/~fragmix/publis/MV2010.pdf
 
 pvStreamTracerCurvature operates on paraview streamlines, isolates streams by injection point, then calculates the local radius of curvature along each streamline.
 
-pvDimensionalStrike takes a 3D volume with velocity U and a vector valid scalar "isValid", averaging along valid vectors along a dimension to reduce to 2D
+pvDimensionalStrike takes a 3D volume with velocity U and a vector valid scalar "isValid", averaging valid vectors along a dimension to reduce to 2D
 
