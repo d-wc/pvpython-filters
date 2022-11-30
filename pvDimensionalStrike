@@ -8,45 +8,45 @@
 ## Okinawa Institute of Science and Technology
 ##################################################
 
-
 import math
 import numpy as np
-from vtk.numpy_interface import algorithms as algs
 
-UU = inputs[0].PointData["U"]
-valOut = np.array(inputs[0].PointData["isValid"])
+from vtk.numpy_interface import algorithms as algs
+#from vtk.numpy_interface import dataset_adapter as dsa
 
 X = inputs[0].Points[:,0]
 Y = inputs[0].Points[:,1]
 Z = inputs[0].Points[:,2]
 
+UPT = np.array(inputs[0].PointData["U"])
+valOut = np.array(inputs[0].PointData["isValid"])
+
+uPt = UPT[:,0]
+vPt = UPT[:,1]
+wPt = UPT[:,2]
+
 xn = np.array(X)
 yn = np.array(Y)
 zn = np.array(Z)
-UPT = np.array(UU)
 
+UOUT = 0*xn
+VOUT = 0*xn
+WOUT = 0*xn
+utmp = 0*xn
 stepsY, countY = np.unique(yn, return_counts = True)
 stepsZ, countZ = np.unique(zn, return_counts = True)
 
-print(stepsY)
-
-U0 = np.array(UU[:,0])
-U1 = np.array(UU[:,1])
-U2 = np.array(UU[:,2])
-
-U0TOUT = 0*xn
-U1TOUT = 0*xn
-U2TOUT = 0*xn
 
 for yInd in stepsY:
     for zInd in stepsZ:
 
-        indTmp = np.logical_and(yn == yInd, zn == zInd)
+        indTmp = np.logical_and(yInd == yn/valOut, zInd == zn/valOut)
 
-        U0TOUT[indTmp] = mean(U0[indTmp])
-        U1TOUT[indTmp] = mean(U1[indTmp])
-        U2TOUT[indTmp] = mean(U2[indTmp])
+        UOUT[indTmp] = mean(uPt[indTmp])
+        VOUT[indTmp] = mean(vPt[indTmp])
+        WOUT[indTmp] = mean(wPt[indTmp])
 
-output.PointData.append(U0TOUT, 'Ubar0')
-output.PointData.append(U1TOUT, 'Ubar1')
-output.PointData.append(U2TOUT, 'Ubar2')
+output.PointData.append(UOUT, 'Ubar0')
+output.PointData.append(VOUT, 'Ubar1')
+output.PointData.append(WOUT, 'Ubar2')
+output.PointData.append(valOut, 'valOut')
