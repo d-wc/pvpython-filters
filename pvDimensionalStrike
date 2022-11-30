@@ -1,5 +1,5 @@
 ##################################################
-## Apply to unstructured grid with velocity U and vector flag isValid
+## In Paraview, apply as programmable filter to unstructured grid with velocity U and vector flag isValid
 ## Averages U along a dimension to reduce to 2D
 ## output: Ubar0-2 
 ##################################################
