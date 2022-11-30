@@ -1,0 +1,52 @@
+##################################################
+## Apply to unstructured grid with velocity U and vector flag isValid
+## Averages U along a dimension to reduce to 2D
+## output: Ubar0-2 
+##################################################
+## Daniel Carlson
+## 2022 November
+## Okinawa Institute of Science and Technology
+##################################################
+
+
+import math
+import numpy as np
+from vtk.numpy_interface import algorithms as algs
+
+UU = inputs[0].PointData["U"]
+valOut = np.array(inputs[0].PointData["isValid"])
+
+X = inputs[0].Points[:,0]
+Y = inputs[0].Points[:,1]
+Z = inputs[0].Points[:,2]
+
+xn = np.array(X)
+yn = np.array(Y)
+zn = np.array(Z)
+UPT = np.array(UU)
+
+stepsY, countY = np.unique(yn, return_counts = True)
+stepsZ, countZ = np.unique(zn, return_counts = True)
+
+print(stepsY)
+
+U0 = np.array(UU[:,0])
+U1 = np.array(UU[:,1])
+U2 = np.array(UU[:,2])
+
+U0TOUT = 0*xn
+U1TOUT = 0*xn
+U2TOUT = 0*xn
+
+for yInd in stepsY:
+    for zInd in stepsZ:
+
+        indTmp = np.logical_and(yn == yInd, zn == zInd)
+
+        U0TOUT[indTmp] = mean(U0[indTmp])
+        U1TOUT[indTmp] = mean(U1[indTmp])
+        U2TOUT[indTmp] = mean(U2[indTmp])
+
+output.PointData.append(U0TOUT, 'Ubar0')
+output.PointData.append(U1TOUT, 'Ubar1')
+output.PointData.append(U2TOUT, 'Ubar2')
