@@ -22,5 +22,7 @@ https://www.cambridge.org/core/journals/journal-of-fluid-mechanics/article/volum
 
 pvDimensionalStrike takes a 3D volume with velocity U and a vector valid scalar "isValid", averaging valid vectors along a dimension to reduce to 2.
 
+pvNormalPlane is applied to a slice plane with velocity U, finds the orientation of the primary flow, and rotates the plane to be orthogonal to flow
+
 Multi-block datasets seem to break numpy, run mergeBlocks to convert the input if needed. 
 
