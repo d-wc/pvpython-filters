@@ -1,9 +1,9 @@
-def ExportPreset(lutName):
+def ExportPreset():
   from paraview import servermanager
   presets = paraview.servermanager.vtkSMTransferFunctionPresets()
 
-  lut = GetColorTransferFunction('erdc_iceFire_L')
-  lut.ApplyPreset(lutName)
+  lut = GetColorTransferFunction('erdc_iceFire_H')
+  lut.ApplyPreset('erdc_iceFire_H')
 
   import vtk
   helper = vtk.vtkUnsignedCharArray()
